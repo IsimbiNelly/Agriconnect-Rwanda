@@ -1,0 +1,12 @@
+fastapi[standard]
+uvicorn[standard]
+sqlalchemy
+httpx
+pydantic[standard]
+databases[postgresql]
+requests
+pytest
+pytest-mock
+pytest-asyncio
+bcrypt
+PYJWT
