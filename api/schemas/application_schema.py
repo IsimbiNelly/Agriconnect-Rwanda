@@ -17,7 +17,7 @@ class User(BaseModel):
     last_name: str = Field(..., description="User last name")
     email: EmailStr = Field(..., description="User email address")
     phone_number: Optional[str] = Field(None, min_length=10, max_length=15)
-    password: str = Field(..., min_length=6, description="User password")
+    password: str = Field(..., description="User password")
 
     role: UserRole = Field(..., description="Role of the user")
 
