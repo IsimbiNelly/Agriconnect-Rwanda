@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <a href="/buyer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+
+    <div class="nav-links">
+      <a href="/buyer/dashboard" class="nav-link active">🛒 <span>Browse Market</span></a>
+      <a href="/buyer/orders"    class="nav-link">📋 <span>My Orders</span></a>
+      <a href="/messages"        class="nav-link">💬 <span>Messages</span></a>
+    </div>
+
+    <div class="nav-right">
+      <!-- Notification bell -->
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Buyer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <!-- ── Search Hero ── -->
+  <div class="search-hero">
+    <div class="search-hero-content">
+      <div class="search-hero-badge">🌾 Fresh from local farms</div>
+      <h2>Rwanda's Farm Marketplace</h2>
+      <p>Browse fresh products directly from farmers near you.</p>
+
+      <div class="search-bar-wrap">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Search maize, tomatoes, milk, bananas…"
+          autocomplete="off"
+        >
+        <button id="search-btn" class="btn btn-harvest">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Filters Bar ── -->
+  <div class="filters-bar">
+    <span class="filters-bar-label">🔧 Filter</span>
+
+    <div class="filter-group">
+      <label>Category</label>
+      <select id="filter-category" class="filter-control">
+        <option value="">All Categories</option>
+        <option value="Grains">🌾 Grains</option>
+        <option value="Vegetables">🥬 Vegetables</option>
+        <option value="Fruits">🍎 Fruits</option>
+        <option value="Dairy">🥛 Dairy</option>
+        <option value="Livestock">🐄 Livestock</option>
+        <option value="Other">📦 Other</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>📍</label>
+      <input id="filter-location" type="text" placeholder="Location…"
+             class="filter-control" style="width:140px;">
+    </div>
+
+    <div class="filter-group">
+      <label>Price (RWF/kg)</label>
+      <input id="filter-min" type="number" placeholder="Min"
+             class="filter-control narrow" min="0">
+      <span style="color:var(--gray-400);">–</span>
+      <input id="filter-max" type="number" placeholder="Max"
+             class="filter-control narrow" min="0">
+    </div>
+  </div>
+
+  <!-- ── Products ── -->
+  <div class="page-container">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <span id="result-count" class="result-count">Loading…</span>
+    </div>
+
+    <div id="products-container">
+      <div class="loading"><div class="spinner"></div><span>Loading marketplace…</span></div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/buyer-dashboard.js"></script>
+</body>
+</html>

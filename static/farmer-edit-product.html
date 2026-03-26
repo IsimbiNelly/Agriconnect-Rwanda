@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Edit Product</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body class="form-page">
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <a href="/farmer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+
+    <div class="nav-links">
+      <a href="/farmer/dashboard"   class="nav-link">🏠 <span>Dashboard</span></a>
+      <a href="/farmer/products"    class="nav-link active">📦 <span>My Products</span></a>
+      <a href="/farmer/add-product" class="nav-link">➕ <span>Add Product</span></a>
+      <a href="/farmer/orders"      class="nav-link">🛒 <span>Orders</span></a>
+      <a href="/messages"           class="nav-link">💬 <span>Messages</span></a>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Farmer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <!-- ── Page ── -->
+  <div class="page-container">
+    <a href="/farmer/products" class="back-link">← Back to My Products</a>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <h2 id="page-title">✏️ Edit Product</h2>
+        <p>Update your product details. Changes are immediately visible to buyers.</p>
+      </div>
+
+      <form id="edit-product-form">
+
+        <!-- Image -->
+        <div class="form-section-label">📷 Product Photo</div>
+        <div class="form-group">
+          <div class="image-upload-area" id="upload-area">
+            <input type="file" id="image-input" accept="image/*">
+            <img id="image-preview" class="image-preview" src="" alt="Preview">
+            <div class="upload-content" id="upload-content">
+              <div class="upload-icon">📷</div>
+              <div class="upload-text">
+                <strong>Click to change photo</strong><br>
+                <span style="font-size:12px;color:var(--gray-400);">PNG, JPG, WEBP · Max 5 MB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Basic Info -->
+        <div class="form-section-label">📋 Basic Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="e-name">Product Name *</label>
+            <input id="e-name" type="text" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="e-category">Category *</label>
+            <select id="e-category" name="category" required>
+              <option value="Grains">🌾 Grains</option>
+              <option value="Vegetables">🥬 Vegetables</option>
+              <option value="Fruits">🍎 Fruits</option>
+              <option value="Dairy">🥛 Dairy</option>
+              <option value="Livestock">🐄 Livestock</option>
+              <option value="Other">📦 Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="form-section-label">💰 Pricing &amp; Stock</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="e-price">Price per kg (KSh) *</label>
+            <input id="e-price" type="number" name="price_per_kg" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="e-qty">Quantity Available (kg) *</label>
+            <input id="e-qty" type="number" name="quantity_available" min="0" step="0.1" required>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="form-section-label">📍 Location</div>
+        <div class="form-group">
+          <label for="e-location">Market / Location *</label>
+          <input id="e-location" type="text" name="location" required>
+        </div>
+
+        <!-- Description -->
+        <div class="form-section-label">📝 Description</div>
+        <div class="form-group">
+          <label for="e-desc">Product Description</label>
+          <textarea id="e-desc" name="description"
+                    placeholder="Describe quality, harvest date, variety, storage…"></textarea>
+        </div>
+
+        <!-- Status -->
+        <div class="form-section-label">🔘 Listing Status</div>
+        <div class="form-group">
+          <label for="e-status">Visibility</label>
+          <select id="e-status" name="is_active">
+            <option value="true">✅ Active – visible to buyers</option>
+            <option value="false">🔒 Inactive – hidden from buyers</option>
+          </select>
+          <p class="form-hint">Inactive listings won't appear in the marketplace but are saved for later.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex;gap:12px;">
+          <a href="/farmer/products" class="btn btn-ghost" style="flex:1;">Cancel</a>
+          <button type="submit" class="btn btn-primary" style="flex:2;">
+            💾 Save Changes
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/farmer-edit-product.js"></script>
+</body>
+</html>

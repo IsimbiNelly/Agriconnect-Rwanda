@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Farmer Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <a href="/farmer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+
+    <div class="nav-links">
+      <a href="/farmer/dashboard"   class="nav-link active">🏠 <span>Dashboard</span></a>
+      <a href="/farmer/products"    class="nav-link">📦 <span>My Products</span></a>
+      <a href="/farmer/add-product" class="nav-link">➕ <span>Add Product</span></a>
+      <a href="/farmer/orders"      class="nav-link">🛒 <span>Orders</span></a>
+      <a href="/messages"           class="nav-link">💬 <span>Messages</span></a>
+    </div>
+
+    <div class="nav-right">
+      <!-- Notification bell -->
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Farmer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <!-- ── Page ── -->
+  <div class="page-container">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <span class="welcome-banner-emoji">🌾</span>
+      <div class="welcome-banner-content">
+        <h2>Welcome back, <span id="welcome-name">Farmer</span> 👋</h2>
+        <p>Your farm, your market. Manage listings and reach buyers across the country.</p>
+        <div class="banner-actions">
+          <a href="/farmer/add-product" class="btn btn-white btn-sm">+ Add New Product</a>
+          <a href="/farmer/orders"      class="btn btn-sm" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);">View Orders</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card green">
+        <div class="stat-icon green">📦</div>
+        <div class="stat-info">
+          <h3 id="stat-total">—</h3>
+          <p>Total Products</p>
+        </div>
+      </div>
+      <div class="stat-card harvest">
+        <div class="stat-icon harvest">✅</div>
+        <div class="stat-info">
+          <h3 id="stat-active">—</h3>
+          <p>Active Listings</p>
+        </div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon blue">🔒</div>
+        <div class="stat-info">
+          <h3 id="stat-inactive">—</h3>
+          <p>Inactive Listings</p>
+        </div>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--harvest-dark);">
+        <div class="stat-icon" style="background:var(--harvest-light);color:var(--harvest-dark);">🛒</div>
+        <div class="stat-info">
+          <h3 id="stat-orders">—</h3>
+          <p>Pending Orders</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Products -->
+    <div class="section-header">
+      <div>
+        <h3>Recent Products</h3>
+        <p>Your latest 6 listings</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <a href="/farmer/products"    class="btn btn-outline btn-sm">View All →</a>
+        <a href="/farmer/add-product" class="btn btn-primary btn-sm">+ Add Product</a>
+      </div>
+    </div>
+
+    <div id="recent-products">
+      <div class="loading"><div class="spinner"></div><span>Loading your products…</span></div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/farmer-dashboard.js"></script>
+</body>
+</html>

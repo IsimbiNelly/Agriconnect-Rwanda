@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Product Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <a href="/buyer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+
+    <div class="nav-links">
+      <a href="/buyer/dashboard" class="nav-link">🛒 <span>Browse Market</span></a>
+      <a href="/buyer/orders"    class="nav-link">📋 <span>My Orders</span></a>
+      <a href="/messages"        class="nav-link">💬 <span>Messages</span></a>
+    </div>
+
+    <div class="nav-right">
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Buyer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <!-- ── Page ── -->
+  <div class="page-container">
+    <button class="back-link" id="back-btn">← Back to Marketplace</button>
+
+    <div id="detail-container">
+      <div class="loading"><div class="spinner"></div><span>Loading product…</span></div>
+    </div>
+
+    <!-- Rating widget (hidden until product loads) -->
+    <div id="rating-section" style="display:none">
+      <div class="rating-widget">
+        <h3>⭐ Rate This Product</h3>
+
+        <div class="star-picker" id="star-picker">
+          <!-- 10 buttons representing 1–10 -->
+        </div>
+        <div class="score-label" id="score-label">Tap a star to rate</div>
+
+        <textarea id="review-text" rows="2"
+          placeholder="Optional: write a short review…"
+          style="width:100%;padding:10px 12px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;resize:vertical;margin-bottom:10px;font-family:inherit;"></textarea>
+
+        <button class="btn btn-primary" id="submit-rating">Submit Rating</button>
+
+        <div class="ratings-list" id="ratings-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/product-detail.js"></script>
+</body>
+</html>
