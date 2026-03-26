@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – User Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/admin/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🛡️</div>
+      AgriConnect Admin
+    </a>
+    <div class="nav-links">
+      <a href="/admin/dashboard" class="nav-link">🏠 <span>Overview</span></a>
+      <a href="/admin/users"     class="nav-link active">👥 <span>Users</span></a>
+      <a href="/messages"        class="nav-link">💬 <span>Messages</span></a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-user-pill" style="background:var(--danger-light);color:var(--danger);">
+        <div class="nav-avatar" id="nav-user-init" style="background:var(--danger);color:#fff;">?</div>
+        <span id="nav-user-name">Admin</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <div class="page-container">
+
+    <div class="section-header">
+      <div>
+        <h3>User Management</h3>
+        <p>Activate or deactivate farmer and buyer accounts</p>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;">
+      <input id="search-input" type="text" placeholder="🔍 Search by name, username, email…"
+             style="flex:1;min-width:220px;padding:9px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+
+      <select id="filter-role" style="padding:9px 12px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+        <option value="">All Roles</option>
+        <option value="farmer">🧑‍🌾 Farmer</option>
+        <option value="buyer">🛒 Buyer</option>
+        <option value="admin">🛡️ Admin</option>
+      </select>
+
+      <select id="filter-status" style="padding:9px 12px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+        <option value="">All Status</option>
+        <option value="true">✅ Active</option>
+        <option value="false">🔒 Inactive</option>
+      </select>
+
+      <button class="btn btn-primary btn-sm" id="search-btn">Search</button>
+    </div>
+
+    <div id="users-container">
+      <div class="loading"><div class="spinner"></div><span>Loading users…</span></div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/admin-users.js"></script>
+</body>
+</html>

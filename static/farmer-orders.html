@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Incoming Orders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/farmer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+    <div class="nav-links">
+      <a href="/farmer/dashboard"   class="nav-link">🏠 <span>Dashboard</span></a>
+      <a href="/farmer/products"    class="nav-link">📦 <span>My Products</span></a>
+      <a href="/farmer/add-product" class="nav-link">➕ <span>Add Product</span></a>
+      <a href="/farmer/orders"      class="nav-link active">🛒 <span>Orders</span></a>
+      <a href="/messages"           class="nav-link">💬 <span>Messages</span></a>
+    </div>
+    <div class="nav-right">
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Farmer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <div class="page-container">
+
+    <div class="section-header">
+      <div>
+        <h3>Incoming Orders</h3>
+        <p>Manage purchase requests from buyers</p>
+      </div>
+    </div>
+
+    <!-- Status filter tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm filter-tab active" data-status="">All</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="pending">⏳ Pending</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="accepted">✅ Accepted</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="paid">💳 Paid</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="completed">🎉 Delivered</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="rejected">❌ Rejected</button>
+    </div>
+
+    <div id="orders-container">
+      <div class="loading"><div class="spinner"></div><span>Loading orders…</span></div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/farmer-orders.js"></script>
+</body>
+</html>

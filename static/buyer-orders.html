@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – My Orders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/buyer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+    <div class="nav-links">
+      <a href="/buyer/dashboard" class="nav-link">🛒 <span>Browse Market</span></a>
+      <a href="/buyer/orders"    class="nav-link active">📋 <span>My Orders</span></a>
+      <a href="/messages"        class="nav-link">💬 <span>Messages</span></a>
+    </div>
+    <div class="nav-right">
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Buyer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <div class="page-container">
+
+    <div class="section-header">
+      <div>
+        <h3>My Purchase Orders</h3>
+        <p>Track all your purchase requests</p>
+      </div>
+      <a href="/buyer/dashboard" class="btn btn-primary btn-sm">+ Browse Products</a>
+    </div>
+
+    <!-- Status filter tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm filter-tab active" data-status="">All</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="pending">⏳ Pending</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="accepted">✅ Accepted</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="paid">💳 Paid</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="completed">🎉 Completed</button>
+      <button class="btn btn-outline btn-sm filter-tab" data-status="rejected">❌ Rejected</button>
+    </div>
+
+    <div id="orders-container">
+      <div class="loading"><div class="spinner"></div><span>Loading orders…</span></div>
+    </div>
+
+  </div>
+
+  <!-- ── Momo Payment Modal ─────────────────────────────────────────── -->
+  <div class="modal-overlay" id="momo-overlay" style="display:none;">
+    <div class="modal" style="max-width:440px;width:90%;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">📱</div>
+        <h3 style="margin:0 0 4px;">Mobile Money Payment</h3>
+        <p id="momo-amount-label" style="color:var(--green-dark);font-weight:700;font-size:18px;margin:0;"></p>
+      </div>
+
+      <!-- Provider selector -->
+      <div style="display:flex;gap:10px;margin-bottom:16px;">
+        <label id="prov-mtn"
+          style="flex:1;border:2px solid var(--gray-200);border-radius:var(--r-md);padding:12px;cursor:pointer;text-align:center;transition:all .2s;"
+          onclick="selectProvider('MTN')">
+          <div style="font-size:24px;">🟡</div>
+          <div style="font-weight:600;font-size:13px;">MTN MoMo</div>
+        </label>
+        <label id="prov-airtel"
+          style="flex:1;border:2px solid var(--gray-200);border-radius:var(--r-md);padding:12px;cursor:pointer;text-align:center;transition:all .2s;"
+          onclick="selectProvider('Airtel')">
+          <div style="font-size:24px;">🔴</div>
+          <div style="font-weight:600;font-size:13px;">Airtel Money</div>
+        </label>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
+        <input id="momo-phone" type="tel" placeholder="Phone number (e.g. 0781234567)"
+          style="padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+        <input id="momo-name" type="text" placeholder="Account holder name"
+          style="padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+      </div>
+
+      <!-- Processing animation (hidden initially) -->
+      <div id="momo-processing" style="display:none;text-align:center;padding:20px 0;">
+        <div class="spinner" style="margin:0 auto 12px;"></div>
+        <div style="font-weight:600;">Processing payment…</div>
+        <div style="font-size:13px;color:var(--gray-500);margin-top:4px;">Please wait, contacting your provider</div>
+      </div>
+
+      <div id="momo-form-actions" class="modal-actions">
+        <button class="btn btn-ghost" id="momo-cancel">Cancel</button>
+        <button class="btn btn-primary" id="momo-pay-btn">💳 Pay Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Receipt Modal ─────────────────────────────────────────────── -->
+  <div class="modal-overlay" id="receipt-overlay" style="display:none;">
+    <div class="modal" style="max-width:480px;width:90%;padding:0;overflow:hidden;">
+      <!-- Receipt header -->
+      <div style="background:linear-gradient(135deg,var(--green-mid),var(--green-light));color:#fff;padding:24px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:8px;">✅</div>
+        <h3 style="margin:0 0 4px;color:#fff;">Payment Successful!</h3>
+        <div id="rec-id" style="font-size:13px;opacity:.85;"></div>
+      </div>
+      <!-- Receipt body -->
+      <div style="padding:24px;">
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Product</td>      <td id="rec-product"  style="text-align:right;font-weight:600;"></td></tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Quantity</td>     <td id="rec-qty"      style="text-align:right;font-weight:600;"></td></tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Price / kg</td>   <td id="rec-price"    style="text-align:right;font-weight:600;"></td></tr>
+          <tr><td colspan="2"><hr style="border:none;border-top:1px dashed var(--gray-200);margin:8px 0;"></td></tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Total Paid</td>   <td id="rec-total"    style="text-align:right;font-weight:700;color:var(--green-dark);font-size:16px;"></td></tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Via</td>          <td id="rec-provider" style="text-align:right;font-weight:600;"></td></tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Paid At</td>      <td id="rec-paid-at"  style="text-align:right;"></td></tr>
+          <tr><td colspan="2"><hr style="border:none;border-top:1px dashed var(--gray-200);margin:8px 0;"></td></tr>
+          <tr>
+            <td style="padding:6px 0;color:var(--gray-500);">Delivery</td>
+            <td id="rec-delivery" style="text-align:right;font-weight:600;color:var(--harvest-dark);"></td>
+          </tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Buyer</td>        <td id="rec-buyer"    style="text-align:right;"></td></tr>
+          <tr><td style="padding:6px 0;color:var(--gray-500);">Farmer</td>       <td id="rec-farmer"   style="text-align:right;"></td></tr>
+        </table>
+        <button class="btn btn-primary" style="width:100%;margin-top:20px;" id="rec-close">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/buyer-orders.js"></script>
+</body>
+</html>

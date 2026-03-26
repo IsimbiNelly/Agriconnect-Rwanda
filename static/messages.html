@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Messages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/" class="nav-brand" id="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+    <div class="nav-links" id="nav-links">
+      <!-- filled by JS based on role -->
+    </div>
+    <div class="nav-right">
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">User</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <!-- ── Messages Layout ── -->
+  <div class="messages-layout">
+
+    <!-- Left: conversations list -->
+    <div class="conv-list">
+      <div class="conv-header">
+        💬 Conversations
+        <button class="btn-new-conv" id="btn-new-conv" title="New conversation">✏️</button>
+      </div>
+      <div id="conv-list-items">
+        <div class="loading" style="padding:20px;justify-content:center;display:flex;gap:8px;align-items:center;">
+          <div class="spinner"></div><span>Loading…</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: chat area -->
+    <div class="chat-area" id="chat-area">
+      <div class="chat-empty">
+        <div class="chat-empty-icon">💬</div>
+        <div>Select a conversation to start chatting</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- User picker modal (hidden) -->
+  <div class="user-picker" id="user-picker" style="display:none">
+    <div class="user-picker-inner">
+      <h3>Start a New Conversation</h3>
+      <div id="user-pick-list">
+        <div class="loading" style="display:flex;gap:8px;align-items:center;">
+          <div class="spinner"></div><span>Loading users…</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="close-picker" style="margin-top:12px;">Cancel</button>
+    </div>
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/messages.js"></script>
+</body>
+</html>

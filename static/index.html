@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Connecting Farmers to Markets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body class="login-page">
+
+  <div class="login-card">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <div class="logo-icon-wrap">🌿</div>
+      <h1>AgriConnect</h1>
+      <p>Connecting Farmers to Markets</p>
+    </div>
+
+    <!-- Role Selector -->
+    <div class="role-selector">
+      <label>I am joining as</label>
+      <div class="role-buttons">
+        <button class="role-btn active" data-role="farmer" type="button">
+          <span class="role-icon">🧑‍🌾</span>
+          <span>Farmer</span>
+        </button>
+        <button class="role-btn" data-role="buyer" type="button">
+          <span class="role-icon">🛒</span>
+          <span>Buyer</span>
+        </button>
+        <button class="role-btn" data-role="admin" type="button">
+          <span class="role-icon">🛡️</span>
+          <span>Admin</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Switcher -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login" type="button">Sign In</button>
+      <button class="auth-tab" data-tab="register" type="button">Create Account</button>
+    </div>
+
+    <!-- ── LOGIN FORM ── -->
+    <form id="login-form">
+      <div class="form-group">
+        <label for="l-username">Username</label>
+        <input id="l-username" type="text" name="username"
+               placeholder="Enter your username" required autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label for="l-password">Password</label>
+        <input id="l-password" type="password" name="password"
+               placeholder="Enter your password" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:4px;">
+        Sign In →
+      </button>
+
+      <p class="text-center text-muted mt-2">
+        Don't have an account?
+        <a href="#" id="go-register" style="color:var(--green-primary);font-weight:600;">Create one free</a>
+      </p>
+    </form>
+
+    <!-- ── REGISTER FORM ── -->
+    <form id="register-form" class="hidden">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-fullname">Full Name</label>
+          <input id="r-fullname" type="text" name="reg_fullname"
+                 placeholder="Jane Wanjiku" required>
+        </div>
+        <div class="form-group">
+          <label for="r-username">Username</label>
+          <input id="r-username" type="text" name="reg_username"
+                 placeholder="janewanjiku" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="r-email">Email Address</label>
+        <input id="r-email" type="email" name="reg_email"
+               placeholder="jane@example.com" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-pass">Password</label>
+          <input id="r-pass" type="password" name="reg_password"
+                 placeholder="Min. 6 characters" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="r-confirm">Confirm Password</label>
+          <input id="r-confirm" type="password" name="reg_confirm"
+                 placeholder="Repeat password" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="r-location">Location <span class="text-muted">(optional)</span></label>
+          <input id="r-location" type="text" name="reg_location"
+                 placeholder="e.g. Nairobi">
+        </div>
+        <div class="form-group">
+          <label for="r-phone">Phone <span class="text-muted">(optional)</span></label>
+          <input id="r-phone" type="tel" name="reg_phone"
+                 placeholder="+254 7XX XXX XXX">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:4px;">
+        Create Account →
+      </button>
+
+      <p class="text-center text-muted mt-2">
+        Already have an account?
+        <a href="#" id="go-login" style="color:var(--green-primary);font-weight:600;">Sign in</a>
+      </p>
+    </form>
+
+  </div><!-- /.login-card -->
+
+  <script src="/static/js/config.js"></script>
+  <script>
+    // Quick tab shortcut links
+    document.getElementById('go-register')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector('[data-tab="register"]').click();
+    });
+    document.getElementById('go-login')?.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector('[data-tab="login"]').click();
+    });
+  </script>
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/admin/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🛡️</div>
+      AgriConnect Admin
+    </a>
+    <div class="nav-links">
+      <a href="/admin/dashboard" class="nav-link active">🏠 <span>Overview</span></a>
+      <a href="/admin/users"     class="nav-link">👥 <span>Users</span></a>
+      <a href="/messages"        class="nav-link">💬 <span>Messages</span></a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-user-pill" style="background:var(--danger-light);color:var(--danger);">
+        <div class="nav-avatar" id="nav-user-init" style="background:var(--danger);color:#fff;">?</div>
+        <span id="nav-user-name">Admin</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <div class="page-container">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner" style="background:linear-gradient(135deg,#1e3a5f,#2d6a4f);">
+      <span class="welcome-banner-emoji">🛡️</span>
+      <div class="welcome-banner-content">
+        <h2>Admin Portal — <span id="welcome-name">Administrator</span></h2>
+        <p>Full platform visibility. Manage users, monitor activity, and maintain platform health.</p>
+        <div class="banner-actions">
+          <a href="/admin/users" class="btn btn-white btn-sm">👥 Manage Users</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">
+      <div class="stat-card green">
+        <div class="stat-icon green">👥</div>
+        <div class="stat-info"><h3 id="s-total-users">—</h3><p>Total Users</p></div>
+      </div>
+      <div class="stat-card harvest">
+        <div class="stat-icon harvest">🧑‍🌾</div>
+        <div class="stat-info"><h3 id="s-farmers">—</h3><p>Farmers</p></div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon blue">🛒</div>
+        <div class="stat-info"><h3 id="s-buyers">—</h3><p>Buyers</p></div>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--danger);">
+        <div class="stat-icon" style="background:var(--danger-light);color:var(--danger);">🔒</div>
+        <div class="stat-info"><h3 id="s-inactive">—</h3><p>Inactive Users</p></div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon green">📦</div>
+        <div class="stat-info"><h3 id="s-products">—</h3><p>Products</p></div>
+      </div>
+      <div class="stat-card harvest">
+        <div class="stat-icon harvest">🛒</div>
+        <div class="stat-info"><h3 id="s-orders">—</h3><p>Total Orders</p></div>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--success);">
+        <div class="stat-icon" style="background:var(--success-light);color:var(--success);">✅</div>
+        <div class="stat-info"><h3 id="s-completed">—</h3><p>Completed</p></div>
+      </div>
+      <div class="stat-card" style="border-top-color:var(--warning);">
+        <div class="stat-icon" style="background:var(--warning-light);color:var(--warning);">⏳</div>
+        <div class="stat-info"><h3 id="s-pending">—</h3><p>Pending Orders</p></div>
+      </div>
+    </div>
+
+    <!-- Recent Users -->
+    <div class="section-header" style="margin-top:32px;">
+      <div>
+        <h3>Recent Users</h3>
+        <p>Latest registrations across the platform</p>
+      </div>
+      <a href="/admin/users" class="btn btn-primary btn-sm">View All Users →</a>
+    </div>
+
+    <div id="recent-users">
+      <div class="loading"><div class="spinner"></div><span>Loading…</span></div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/admin-dashboard.js"></script>
+</body>
+</html>

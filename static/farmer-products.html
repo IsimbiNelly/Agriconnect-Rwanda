@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect – My Products</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <a href="/farmer/dashboard" class="nav-brand">
+      <div class="nav-logo-box">🌿</div>
+      AgriConnect
+    </a>
+
+    <div class="nav-links">
+      <a href="/farmer/dashboard"   class="nav-link">🏠 <span>Dashboard</span></a>
+      <a href="/farmer/products"    class="nav-link active">📦 <span>My Products</span></a>
+      <a href="/farmer/add-product" class="nav-link">➕ <span>Add Product</span></a>
+      <a href="/farmer/orders"      class="nav-link">🛒 <span>Orders</span></a>
+      <a href="/messages"           class="nav-link">💬 <span>Messages</span></a>
+    </div>
+
+    <div class="nav-right">
+      <div class="notif-wrap">
+        <button class="notif-bell" id="notif-bell" title="Notifications">🔔
+          <span class="notif-badge" id="notif-badge" style="display:none"></span>
+        </button>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-panel-header">🔔 Notifications</div>
+          <div class="notif-list" id="notif-list"></div>
+        </div>
+      </div>
+      <div class="nav-user-pill">
+        <div class="nav-avatar" id="nav-user-init">?</div>
+        <span id="nav-user-name">Farmer</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-changepw" style="padding:7px 12px;font-size:13px;">🔐 Password</button>
+      <button class="btn-logout" id="btn-logout">⏻ Logout</button>
+    </div>
+  </nav>
+
+  <!-- ── Page ── -->
+  <div class="page-container">
+
+    <div class="page-header">
+      <div class="page-header-text">
+        <h2>My Products</h2>
+        <p id="product-count">Loading your listings…</p>
+      </div>
+      <a href="/farmer/add-product" class="btn btn-primary">+ Add New Product</a>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="inline-filter-bar">
+      <span style="font-size:18px;">🔍</span>
+      <input
+        id="search-products"
+        type="text"
+        placeholder="Search by name or location…"
+        style="flex:1;min-width:180px;"
+      >
+      <select id="filter-status">
+        <option value="">All Status</option>
+        <option value="active">✅ Active only</option>
+        <option value="inactive">🔒 Inactive only</option>
+      </select>
+    </div>
+
+    <!-- Products Container -->
+    <div id="products-container">
+      <div class="loading"><div class="spinner"></div><span>Loading your products…</span></div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/farmer-products.js"></script>
+</body>
+</html>
