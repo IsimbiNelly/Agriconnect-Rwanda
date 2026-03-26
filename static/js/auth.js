@@ -4,11 +4,36 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Already logged in → go to dashboard
-  const user = getUser();
-  if (user && getToken()) {
-    redirectByRole(user.role);
-    return;
+  // If already logged in with a VALID session, offer to continue
+  // but do NOT hard-redirect — the user may want to switch roles.
+  const _cached = getUser();
+  const _token  = getToken();
+  if (_cached && _token) {
+    const banner = document.createElement('div');
+    banner.id = 'session-banner';
+    banner.innerHTML = `
+      <span>Signed in as <strong>${_cached.full_name}</strong> (${_cached.role})</span>
+      <div style="display:flex;gap:8px;">
+        <button id="banner-continue" class="btn btn-sm btn-primary" style="padding:4px 12px;font-size:13px;">
+          Go to my dashboard →
+        </button>
+        <button id="banner-switch" class="btn btn-sm btn-ghost" style="padding:4px 12px;font-size:13px;">
+          Switch account
+        </button>
+      </div>`;
+    banner.style.cssText =
+      'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 16px;' +
+      'display:flex;align-items:center;justify-content:space-between;gap:12px;' +
+      'margin-bottom:20px;font-size:14px;color:#166534;flex-wrap:wrap;';
+    document.querySelector('.login-card').prepend(banner);
+
+    document.getElementById('banner-continue').addEventListener('click', () => {
+      redirectByRole(_cached.role);
+    });
+    document.getElementById('banner-switch').addEventListener('click', () => {
+      clearAuth();
+      banner.remove();
+    });
   }
 
   let activeRole = 'farmer';
@@ -20,19 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.role-btn').forEach(b =>
         b.classList.toggle('active', b.dataset.role === activeRole)
       );
-
-      // Admin can only login, not self-register
-      const registerTab = document.querySelector('[data-tab="register"]');
-      const registerForm = document.getElementById('register-form');
-      if (activeRole === 'admin') {
-        registerTab.style.display = 'none';
-        registerForm.classList.add('hidden');
-        document.getElementById('login-form').classList.remove('hidden');
-        document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
-        document.querySelector('[data-tab="login"]').classList.add('active');
-      } else {
-        registerTab.style.display = '';
-      }
     });
   });
 

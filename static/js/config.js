@@ -35,7 +35,11 @@ function requireAuth(role = null) {
   const token = getToken();
   const user  = getUser();
   if (!token || !user) { window.location.href = '/'; return null; }
-  if (role && user.role !== role) { window.location.href = '/'; return null; }
+  if (role && user.role !== role) {
+    // Send to the correct dashboard for the user's actual role
+    redirectByRole(user.role);
+    return null;
+  }
   return user;
 }
 
