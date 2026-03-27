@@ -1,11 +1,12 @@
-"""Auth controller — register, login, change password."""
+"""Auth controller — register, login, change password, forgot/reset password."""
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from backend.model.models import User, UserRole
-from backend.schema.schemas import UserCreate, UserLogin, Token, ChangePasswordRequest, UserResponse
+from backend.schema.schemas import UserCreate, UserLogin, Token, ChangePasswordRequest, UserResponse, ForgotPasswordRequest, ResetPasswordRequest
 from backend.services.auth_service import verify_password, hash_password, create_access_token
-from backend.services.email_service import send_welcome_email, send_password_changed_email
+from backend.services.email_service import send_welcome_email, send_password_changed_email, send_otp_email
+from backend.services import otp_service
 
 
 def register(data: UserCreate, db: Session) -> Token:
@@ -76,3 +77,38 @@ def change_password(data: ChangePasswordRequest, current_user: User, db: Session
     )
 
     return {"message": "Password updated successfully"}
+
+
+def forgot_password(data: ForgotPasswordRequest, db: Session) -> dict:
+    user = db.query(User).filter(User.email == data.email.lower().strip()).first()
+    # Always respond with the same message to avoid email enumeration
+    if not user:
+        return {"message": "If that email is registered you will receive an OTP shortly."}
+
+    otp = otp_service.generate_otp(user.email)
+    send_otp_email(to=user.email, full_name=user.full_name, otp=otp)
+    return {"message": "If that email is registered you will receive an OTP shortly."}
+
+
+def reset_password(data: ResetPasswordRequest, db: Session) -> dict:
+    email = data.email.lower().strip()
+    ok, reason = otp_service.verify_otp(email, data.otp)
+    if not ok:
+        raise HTTPException(400, reason)
+
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(400, "Account not found.")
+
+    if len(data.new_password) < 6:
+        raise HTTPException(400, "New password must be at least 6 characters.")
+
+    user.hashed_password = hash_password(data.new_password)
+    db.commit()
+
+    send_password_changed_email(
+        to=user.email,
+        full_name=user.full_name,
+        new_password=data.new_password,
+    )
+    return {"message": "Password reset successfully. You can now log in."}

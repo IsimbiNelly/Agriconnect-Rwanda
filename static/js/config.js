@@ -327,6 +327,9 @@ function showChangePasswordModal() {
         <button class="btn btn-ghost" id="cp-cancel">Cancel</button>
         <button class="btn btn-primary" id="cp-submit">Update Password</button>
       </div>
+      <p style="text-align:center;margin-top:12px;font-size:13px;">
+        <a href="#" id="cp-forgot" style="color:var(--green-primary);">Forgot current password?</a>
+      </p>
     </div>`;
   document.body.appendChild(overlay);
   requestAnimationFrame(() => overlay.classList.add('show'));
@@ -338,6 +341,13 @@ function showChangePasswordModal() {
 
   overlay.querySelector('#cp-cancel').addEventListener('click', close);
   overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+  overlay.querySelector('#cp-forgot').addEventListener('click', (e) => {
+    e.preventDefault();
+    const user = getUser();
+    close();
+    showForgotPasswordModal(user ? user.email : '');
+  });
 
   overlay.querySelector('#cp-submit').addEventListener('click', async () => {
     const current = overlay.querySelector('#cp-current').value;
@@ -364,6 +374,125 @@ function showChangePasswordModal() {
       showToast(err.message, 'error');
       btn.disabled = false;
       btn.textContent = orig;
+    }
+  });
+}
+
+// ── Forgot Password modal (OTP flow) ─────────────────────────
+function showForgotPasswordModal(prefillEmail = '') {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal" style="max-width:420px;">
+      <span class="modal-icon">🔑</span>
+      <h3 id="fp-title">Forgot Password</h3>
+      <p id="fp-desc" style="font-size:14px;color:#6b7280;margin-bottom:16px;">
+        Enter your registered email and we'll send you a 6-digit OTP code.
+      </p>
+
+      <!-- Step 1: email -->
+      <div id="fp-step1">
+        <input id="fp-email" type="email" placeholder="your@email.com" value="${prefillEmail}"
+          style="width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;margin-bottom:16px;">
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="fp-cancel">Cancel</button>
+          <button class="btn btn-primary" id="fp-send">Send OTP</button>
+        </div>
+      </div>
+
+      <!-- Step 2: OTP + new password -->
+      <div id="fp-step2" style="display:none;flex-direction:column;gap:12px;">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;font-size:13px;color:#1d4ed8;">
+          A 6-digit code was sent to <strong id="fp-email-label"></strong>. Check your inbox.
+        </div>
+        <input id="fp-otp" type="text" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit OTP"
+          style="padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:20px;letter-spacing:8px;text-align:center;">
+        <input id="fp-newpass" type="password" placeholder="New password (min 6 chars)"
+          style="padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+        <input id="fp-confirm" type="password" placeholder="Confirm new password"
+          style="padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--r-sm);font-size:14px;">
+        <div class="modal-actions" style="margin-top:4px;">
+          <button class="btn btn-ghost" id="fp-resend" style="font-size:13px;">Resend OTP</button>
+          <button class="btn btn-primary" id="fp-reset">Reset Password</button>
+        </div>
+      </div>
+    </div>`;
+
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('show'));
+
+  const close = () => {
+    overlay.classList.remove('show');
+    setTimeout(() => overlay.remove(), 250);
+  };
+
+  overlay.querySelector('#fp-cancel').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+  let sentEmail = '';
+
+  const goStep2 = (email) => {
+    sentEmail = email;
+    overlay.querySelector('#fp-step1').style.display = 'none';
+    const s2 = overlay.querySelector('#fp-step2');
+    s2.style.display = 'flex';
+    overlay.querySelector('#fp-email-label').textContent = email;
+    overlay.querySelector('#fp-title').textContent = 'Enter OTP';
+    overlay.querySelector('#fp-desc').textContent = 'Enter the code from your email and choose a new password.';
+    overlay.querySelector('#fp-otp').focus();
+  };
+
+  const sendOtp = async () => {
+    const email = overlay.querySelector('#fp-email').value.trim();
+    if (!email) { showToast('Please enter your email address', 'error'); return; }
+    const btn = overlay.querySelector('#fp-send');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      await apiFetch('/api/auth/forgot-password', { method: 'POST', body: { email } });
+      showToast('OTP sent! Check your email inbox.');
+      goStep2(email);
+    } catch (err) {
+      showToast(err.message, 'error');
+      btn.disabled = false; btn.textContent = 'Send OTP';
+    }
+  };
+
+  overlay.querySelector('#fp-send').addEventListener('click', sendOtp);
+
+  overlay.querySelector('#fp-resend').addEventListener('click', async () => {
+    const btn = overlay.querySelector('#fp-resend');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      await apiFetch('/api/auth/forgot-password', { method: 'POST', body: { email: sentEmail } });
+      showToast('New OTP sent! Check your email.');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Resend OTP';
+    }
+  });
+
+  overlay.querySelector('#fp-reset').addEventListener('click', async () => {
+    const otp     = overlay.querySelector('#fp-otp').value.trim();
+    const newPass = overlay.querySelector('#fp-newpass').value;
+    const confirm = overlay.querySelector('#fp-confirm').value;
+    if (!otp)            { showToast('Please enter the OTP code', 'error'); return; }
+    if (!newPass)        { showToast('Please enter a new password', 'error'); return; }
+    if (newPass !== confirm) { showToast('Passwords do not match', 'error'); return; }
+    if (newPass.length < 6)  { showToast('Password must be at least 6 characters', 'error'); return; }
+
+    const btn = overlay.querySelector('#fp-reset');
+    btn.disabled = true; btn.textContent = 'Resetting…';
+    try {
+      await apiFetch('/api/auth/reset-password', {
+        method: 'POST',
+        body: { email: sentEmail, otp, new_password: newPass },
+      });
+      showToast('Password reset! You can now log in with your new password. ✅');
+      close();
+    } catch (err) {
+      showToast(err.message, 'error');
+      btn.disabled = false; btn.textContent = 'Reset Password';
     }
   });
 }

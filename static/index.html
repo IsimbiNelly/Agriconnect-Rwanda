@@ -62,10 +62,12 @@
         Sign In →
       </button>
 
-      <p class="text-center text-muted mt-2">
-        Don't have an account?
-        <a href="#" id="go-register" style="color:var(--green-primary);font-weight:600;">Create one free</a>
-      </p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px;">
+        <span class="text-muted">Don't have an account?
+          <a href="#" id="go-register" style="color:var(--green-primary);font-weight:600;">Create one free</a>
+        </span>
+        <a href="#" id="go-forgot" style="color:#3b82f6;font-weight:500;">Forgot password?</a>
+      </div>
     </form>
 
     <!-- ── REGISTER FORM ── -->
@@ -137,6 +139,10 @@
     document.getElementById('go-login')?.addEventListener('click', e => {
       e.preventDefault();
       document.querySelector('[data-tab="login"]').click();
+    });
+    document.getElementById('go-forgot')?.addEventListener('click', e => {
+      e.preventDefault();
+      showForgotPasswordModal();
     });
   </script>
   <script src="/static/js/auth.js"></script>

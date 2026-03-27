@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from backend.database.session import get_db
-from backend.schema.schemas import UserCreate, UserLogin, Token, UserResponse, ChangePasswordRequest
+from backend.schema.schemas import UserCreate, UserLogin, Token, UserResponse, ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest
 from backend.controllers import auth_controller
 from backend.utils.auth import get_current_user
 from backend.model.models import User
@@ -32,3 +32,13 @@ def change_password(
     db: Session = Depends(get_db),
 ):
     return auth_controller.change_password(data, current_user, db)
+
+
+@router.post("/forgot-password")
+def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
+    return auth_controller.forgot_password(data, db)
+
+
+@router.post("/reset-password")
+def reset_password(data: ResetPasswordRequest, db: Session = Depends(get_db)):
+    return auth_controller.reset_password(data, db)

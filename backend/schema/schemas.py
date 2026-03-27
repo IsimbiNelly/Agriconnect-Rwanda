@@ -133,6 +133,16 @@ class ChangePasswordRequest(BaseModel):
     new_password:     str
 
 
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+
+class ResetPasswordRequest(BaseModel):
+    email:        str
+    otp:          str
+    new_password: str
+
+
 class PaymentRequest(BaseModel):
     phone:    str
     name:     str
