@@ -97,6 +97,9 @@ def admin_dashboard():
 def admin_users():
     return FileResponse("static/admin-users.html")
 
+@app.get("/health")
+def admin_users():
+    return {"message":"success"}
 
 if __name__ == "__main__":
     uvicorn.run("backend.main:app", port=8000, reload=True)
